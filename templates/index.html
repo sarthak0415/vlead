@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>wavesurfer.js | Annotation tool</title>
+
+        <link href="data:image/gif;" rel="icon" type="image/x-icon" />
+
+        <!-- jQuery -->
+        <script src="static/js/jquery-2.1.3.min.js"></script>
+
+        <!-- Bootstrap -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="static/css/style.css" />
+        <link rel="stylesheet" href="static/css/ribbon.css" />
+        <link rel="screenshot" itemprop="screenshot" href="http://katspaugh.github.io/wavesurfer.js/example/screenshot.png" />
+
+        <!-- wavesurfer.js -->
+        <script src="static/js/src/wavesurfer.js"></script>
+        <script src="static/js/src/webaudio.js"></script>
+        <script src="static/js/src/audioelement.js"></script>
+        <script src="static/js/src/drawer.js"></script>
+        <script src="static/js/src/drawer.canvas.js"></script>
+
+        <!-- plugins -->
+        <script src="static/js/plugin/wavesurfer.timeline.js"></script>
+        <script src="static/js/plugin/wavesurfer.regions.js"></script>
+        <script src="static/js/plugin/wavesurfer.minimap.js"></script>
+
+        <!-- App -->
+        <script src="static/js/trivia.js"></script>
+        <script src="static/js/app.js"></script>
+    </head>
+
+    <body itemscope itemtype="http://schema.org/WebApplication">
+        <div class="container">
+            
+
+            <div id="demo">
+                <li>
+                    <span id="signinview"> Sign In </span>
+                </li>
+
+                <div clas"row">
+                    Login to swt store 
+                    <button class="btn btn-success" id="sign-in">sign-in</button>
+                </div>
+
+                <div clas"row">
+                    Load a sound file:<input id="file-input" type="text" value="demo.wav">
+                    <button class="btn btn-success" id="load">Load</button>
+                </div>
+
+                <!--div clas"row">
+                    Load a csv file: 
+                    <input id="nodes-csv-file-input" type="file">
+                    <input id="edges-csv-file-input" type="file">
+                    <button class="btn btn-success" id="genrateForm">LoadCSV</button>
+                </div-->
+                
+                <p id="subtitle" class="text-center text-info">&nbsp;</p>
+
+                <div id="wave-timeline"></div>
+
+                <div id="waveform">
+                    <!-- Here be waveform -->
+                </div>
+
+                <div class="row" style="margin: 30px 0">
+                    <div class="col-sm-8">
+                        <p>
+                            Click on a region to enter an annotation.<br />
+                            Shift-click plays a region in a loop.
+                        </p>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary btn-block" data-action="play">
+                            <span id="play">
+                                <i class="glyphicon glyphicon-play"></i>
+                                Play
+                            </span>
+
+                            <span id="pause" style="display: none">
+                                <i class="glyphicon glyphicon-pause"></i>
+                                Pause
+                            </span>
+                        </button>
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button class="btn btn-info btn-block" data-action="Publish" title="Publish annotations to JSON" id="Publish">
+                            <i class="glyphicon glyphicon-file"></i>
+                            Publish
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                <div class="form-group">
+                    <label for="start">Start</label>
+                    <input class="form-control" id="start" name="start" />
+                </div>
+
+                <div class="form-group">
+                    <label for="end">End</label>
+                    <input class="form-control" id="end" name="end" />
+                </div>
+
+                <div class="form-group">
+                    <label for="note">Note</label>
+                    <textarea id="note" class="form-control" rows="3" name="note"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="note1">Comment</label>
+                    <textarea id="comment" class="form-control" rows="3" name="comment"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="songgraph">Song-graph</label>
+                    <select id="songgraph" class="form-control" rows="3" name="songgraph" onchange="change_type()"></select>
+                </div>
+            
+
+                <div class="form-group">
+                    <label for="songtype">Song-type</label>
+                    <select id="songtype" class="form-control" rows="3" name="songtype" onchange="change_label()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="songlabel">Song-label</label>
+                    <select id="songlabel" class="form-control" rows="3" name="songlabel"></select>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block">Save</button>
+               
+                <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
+            </form>
+
+            
+        </div>
+
+    </body>
+
+    <script>
+        var swtstoreURL = function() { return '{{ config.swtstoreURL }}'; }
+        var endpoints = {
+            'get': '/api/sweets/q',
+            'post': '/api/sweets',
+            'context': '/api/contexts',
+            'auth': '/oauth/authorize',
+            'login': '/auth/login',
+            'logout': '/auth/logout'
+        };
+        var access_token = '{{ access_token }}';
+        var refresh_token = '{{ refresh_token }}';
+        var app_id = '{{ config.app_id }}';
+        var oauth_redirect_uri = '{{ config.redirect_uri }}';
+    </script>
+
+</html>
