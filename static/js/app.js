@@ -44,7 +44,7 @@ function make_and_post_swt(){
         post_swt[i] = swt;
     }
 
-    console.log(post_swt)
+    ////console.log(post_swt)
     $.ajax({
         url : swtstoreURL()+ endpoints.post + '?access_token=' + access_token,
         data : JSON.stringify(post_swt),
@@ -52,7 +52,7 @@ function make_and_post_swt(){
         type : "POST",
         success : function(data){
             localStorage.clear();
-            console.log(data);
+            ////console.log(data);
         }
     });
 }
@@ -97,10 +97,10 @@ function authenticate_user(){
     signin.onclick = function(event){
         event.preventDefault();
        
-        console.log('oauth.authorize');
+        //console.log('oauth.authorize');
 
         oauth.authorize();
-        //console.log(a);
+        ////console.log(a);
         return false;
     };
 }
@@ -135,10 +135,10 @@ function wavesurfer_setting_fucntion(){
 
     wavesurfer.on('ready', function () {
         if (localStorage.regions) {
-            console.log('in if');
+            //console.log('in if');
             loadRegions(JSON.parse(localStorage.regions));
         } else {
-            console.log('in else');
+            //console.log('in else');
             // loadRegions(
             //     extractRegions(
             //         wavesurfer.backend.getPeaks(512),
@@ -150,7 +150,7 @@ function wavesurfer_setting_fucntion(){
                 responseType: 'json',
                 url: 'annotations.json'
             }).on('success', function (data) {
-                console.log(data);
+                //console.log(data);
                 loadRegions(data);
                 saveRegions();
             });*/
@@ -194,7 +194,7 @@ function wavesurfer_setting_fucntion(){
         
         var val = load_music_file(url);
         //wavesurfer.load(val);
-        //console.log(val);
+        ////console.log(val);
     };
 }
 
@@ -207,7 +207,7 @@ function load_music_file(url){
         success : function(data){
             //localStorage.clear();
             wavesurfer.load(data);
-            console.log(data);
+            //console.log(data);
         }
     });
 
@@ -229,7 +229,7 @@ function anntologies_data_loading(){
             nodes_csv_dict = generateForm(nodes_csv);
             csv_dict['nodes'] = nodes_csv_dict;
             //addGraph(csv_dict);
-            //console.log(nodes_csv_dict);
+            ////console.log(nodes_csv_dict);
 
             var edges_csv_file = document.getElementById('edges-csv-file-input');
             var edges_file = edges_csv_file.files[0];
@@ -239,7 +239,7 @@ function anntologies_data_loading(){
                 edges_csv_dict = generateForm(edges_csv);
                 csv_dict['edges'] = edges_csv_dict;
                 addGraph(csv_dict);
-                //console.log(edges_csv_dict);
+                ////console.log(edges_csv_dict);
             }
             edges_reader.readAsBinaryString(edges_file);    
         }
@@ -252,7 +252,7 @@ function anntologies_data_loading(){
         //localStorage.setItem("edges_csv", JSON.stringify(edges_csv_dict));
         localStorage.setItem("csv", JSON.stringify(csv_dict))
         addGraph(csv_dict);
-        console.log(csv_dict);
+        //console.log(csv_dict);
 
     };
 
@@ -267,7 +267,7 @@ function anntologies_data_loading(){
         data : {},
         type : "GET",
         success : function(data){
-            //console.log(data);
+            ////console.log(data);
             nodes_csv = data.replace(pattern, "");
             nodes_csv_dict = generateForm(nodes_csv);
             csv_dict['nodes'] = nodes_csv_dict;
@@ -277,14 +277,14 @@ function anntologies_data_loading(){
                 data : {},
                 type : "GET",
                 success : function(data){
-                    //console.log(data);
+                    ////console.log(data);
                     edges_csv = data.replace(pattern, "");;
                     edges_csv_dict = generateForm(edges_csv);
                     csv_dict['edges'] = edges_csv_dict;
 
                     localStorage.setItem("csv", JSON.stringify(csv_dict))
                     addGraph(csv_dict);
-                    console.log(csv_dict);
+                    //console.log(csv_dict);
                 }
             });
         }
@@ -297,14 +297,14 @@ function anntologies_data_loading(){
 function change_type(){
     var selected_element = document.getElementById("songgraph").value;
     addType(csv_dict[selected_element])
-   // console.log('got here!');
+   // //console.log('got here!');
 }
 
 function change_label(){
     var selected_element1 = document.getElementById("songgraph").value;
     var selected_element = document.getElementById("songtype").value;
     addLabel(csv_dict[selected_element1][selected_element]);
-   // console.log('got here!');
+   // //console.log('got here!');
 }
 
 /**
@@ -313,7 +313,7 @@ function change_label(){
 function generateForm(csv_data){
     
     var allTextLines = csv_data.split(/[\r\n]+/g);
-    //console.log(allTextLines);
+    ////console.log(allTextLines);
     var lines = {};
     var tarr = [];
 
@@ -333,9 +333,9 @@ function generateForm(csv_data){
 
     }
     lines[temp_key] = tarr;
-    //console.log(lines);
+    ////console.log(lines);
     var str = JSON.stringify(lines);
-    //console.log(str);
+    ////console.log(str);
     return lines;
 }
 
@@ -353,14 +353,14 @@ function addGraph(options) {
 
     for (var val in options) {
         
-        //console.log(select);
+        ////console.log(select);
         
         var node = document.createElement("option");
         node.id = val;
         node.setAttribute('value', val);
         node.textContent = val;
       
-        //console.log(select);
+        ////console.log(select);
         select.appendChild(node);
     }
 }
@@ -378,14 +378,14 @@ function addType(options) {
 
     for (var val in options) {
         
-        //console.log(select);
+        ////console.log(select);
         
         var node = document.createElement("option");
         node.id = val;
         node.setAttribute('value', val);
         node.textContent = val;
       
-        //console.log(select);
+        ////console.log(select);
         select.appendChild(node);
     }
 }
@@ -404,13 +404,13 @@ function addLabel(options) {
     for (i=0; i <options.length; i++) {
         val = options[i]
      
-        //console.log(select);
+        ////console.log(select);
         var node = document.createElement("option");
         node.id = val;
         node.setAttribute('value', val);
         node.textContent = val;
       
-        //console.log(select);
+        ////console.log(select);
         //select.removeChild();
         select.appendChild(node);
     };

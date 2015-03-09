@@ -45,7 +45,7 @@ def downloadMusic():
     print url
     music_file_parse_url = url.split("/")
     music_file_name = music_file_parse_url[-1]
-    music_file_path = 'static/data/music_files/'+music_file_name
+    music_file_path = 'static/music_files/'+music_file_name
     response = requests.get(url)
     data = response.content
     open(music_file_path, 'wb').write(data)
