@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     anntologies_data_loading();
     authenticate_user();
     handle_auth();
+    handle_signout();
+
 
     //make_and_post_swt();
 
@@ -68,8 +70,18 @@ function userLoggedIn(username) {
 function userLoggedOut(){
     current_user = 'guest'
     $('#signinview').html('Logged out');
+     $('#sign-in').show();
 }
 
+function handle_signout(){
+
+    var signout = document.querySelector('#sign-out');
+
+    signout.onclick = function(event){
+        userLoggedOut();
+    };
+
+}
 function handle_auth(){
     if(access_token) {
         $('#signinview').html('Signing you in..');
