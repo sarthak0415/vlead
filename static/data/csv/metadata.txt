@@ -1,4 +1,0 @@
-nodes.csv :
-	ID,Type,Label
-edges.csv:
-	Source,Target,Label,ID,Type,Weight
