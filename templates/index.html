@@ -11,6 +11,7 @@
 
         <!-- Bootstrap -->
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="static/css/searchbox.css"/>
 
         <link rel="stylesheet" href="static/css/style.css" />
         <link rel="stylesheet" href="static/css/ribbon.css" />
@@ -38,108 +39,122 @@
             
 
             <div id="demo">
-                <li>
-                    <span id="signinview"> Sign In </span>
-                </li>
-
-                <div clas"row">
-                    Login to swt store 
-                    <button class="btn btn-success" id="sign-in">sign-in</button>
-                </div>
-
-                <div clas"row">
-                    Load a sound file:<input id="file-input" type="text" value="demo.wav">
-                    <button class="btn btn-success" id="load">Load</button>
-                </div>
-
-                <!--div clas"row">
-                    Load a csv file: 
-                    <input id="nodes-csv-file-input" type="file">
-                    <input id="edges-csv-file-input" type="file">
-                    <button class="btn btn-success" id="genrateForm">LoadCSV</button>
-                </div-->
                 
-                <p id="subtitle" class="text-center text-info">&nbsp;</p>
+                <div id="signedInUser" style=" position:relative;transition:.5s ease; top: 10%; left :90%;">
+                    <span id="signinview"> Sign In </span>
 
-                <div id="wave-timeline"></div>
+                    <div class="row">
+                        <button class="btn btn-success" id="sign-in">sign-in</button>
+                        <button class="btn btn-success" id="sign-out">sign-out</button>
+                    </div>
 
-                <div id="waveform">
-                    <!-- Here be waveform -->
                 </div>
 
-                <div class="row" style="margin: 30px 0">
-                    <div class="col-sm-8">
-                        <p>
-                            Click on a region to enter an annotation.<br />
-                            Shift-click plays a region in a loop.
-                        </p>
+               
+                <div style=" position:relative;">
+                    <div clas"row">
+                        Load a sound file:
+                         <div id="custom-search-input">
+                            <div class="input-group col-md-12">
+                                <input type="text" class="search-query form-control" id="file-input" placeholder="Search" />
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success" id="load">Load</button>
                     </div>
 
-                    <div class="col-sm-2">
-                        <button class="btn btn-primary btn-block" data-action="play">
-                            <span id="play">
-                                <i class="glyphicon glyphicon-play"></i>
-                                Play
-                            </span>
+                    <!--div clas"row">
+                        Load a csv file: 
+                        <input id="nodes-csv-file-input" type="file">
+                        <input id="edges-csv-file-input" type="file">
+                        <button class="btn btn-success" id="genrateForm">LoadCSV</button>
+                    </div-->
+                    
+                    <p id="subtitle" class="text-center text-info">&nbsp;</p>
 
-                            <span id="pause" style="display: none">
-                                <i class="glyphicon glyphicon-pause"></i>
-                                Pause
-                            </span>
-                        </button>
+                    <div id="wave-timeline"></div>
+
+                    <div id="waveform">
+                        <!-- Here be waveform -->
                     </div>
 
-                    <div class="col-sm-2">
-                        <button class="btn btn-info btn-block" data-action="Publish" title="Publish annotations to JSON" id="Publish">
-                            <i class="glyphicon glyphicon-file"></i>
-                            Publish
-                        </button>
+                    <div class="row" style="margin: 30px 0">
+                        <div class="col-sm-8">
+                            <p>
+                                Click on a region to enter an annotation.<br />
+                                Shift-click plays a region in a loop.
+                            </p>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button class="btn btn-primary btn-block" data-action="play">
+                                <span id="play">
+                                    <i class="glyphicon glyphicon-play"></i>
+                                    Play
+                                </span>
+
+                                <span id="pause" style="display: none">
+                                    <i class="glyphicon glyphicon-pause"></i>
+                                    Pause
+                                </span>
+                            </button>
+                        </div>
+
+                        <div class="col-sm-2">
+                            <button class="btn btn-info btn-block" data-action="publish" title="Publish annotations to JSON" id="Publish">
+                                <i class="glyphicon glyphicon-file"></i>
+                                Publish
+                            </button>
+                        </div>
                     </div>
                 </div>
+                    
             </div>
 
-            <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
-                <div class="form-group">
-                    <label for="start">Start</label>
-                    <input class="form-control" id="start" name="start" />
-                </div>
+           <div style=" position:relative;">
+                 <form role="form" name="edit" style="opacity: 0; transition: opacity 300ms linear; margin: 30px 0;">
+                    <div class="form-group">
+                        <label for="start">Start</label>
+                        <input class="form-control" id="start" name="start" />
+                    </div>
 
-                <div class="form-group">
-                    <label for="end">End</label>
-                    <input class="form-control" id="end" name="end" />
-                </div>
+                    <div class="form-group">
+                        <label for="end">End</label>
+                        <input class="form-control" id="end" name="end" />
+                    </div>
 
-                <div class="form-group">
-                    <label for="note">Note</label>
-                    <textarea id="note" class="form-control" rows="3" name="note"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="note">Note</label>
+                        <textarea id="note" class="form-control" rows="3" name="note"></textarea>
+                    </div>
 
 
-                <div class="form-group">
-                    <label for="note1">Comment</label>
-                    <textarea id="comment" class="form-control" rows="3" name="comment"></textarea>
-                </div>
+                    <div class="form-group">
+                        <label for="note1">Comment</label>
+                        <textarea id="comment" class="form-control" rows="3" name="comment"></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="songgraph">Song-graph</label>
-                    <select id="songgraph" class="form-control" rows="3" name="songgraph" onchange="change_type()"></select>
-                </div>
-            
+                    <div class="form-group">
+                        <label for="songgraph">Song-graph</label>
+                        <select id="songgraph" class="form-control" rows="3" name="songgraph" onchange="change_type()"></select>
+                    </div>
+                
 
-                <div class="form-group">
-                    <label for="songtype">Song-type</label>
-                    <select id="songtype" class="form-control" rows="3" name="songtype" onchange="change_label()"></select>
-                </div>
+                    <div class="form-group">
+                        <label for="songtype">Song-type</label>
+                        <select id="songtype" class="form-control" rows="3" name="songtype" onchange="change_label()"></select>
+                    </div>
 
-                <div class="form-group">
-                    <label for="songlabel">Song-label</label>
-                    <select id="songlabel" class="form-control" rows="3" name="songlabel"></select>
-                </div>
+                    <div class="form-group">
+                        <label for="songlabel">Song-label</label>
+                        <select id="songlabel" class="form-control" rows="3" name="songlabel"></select>
+                    </div>
 
-                <button type="submit" class="btn btn-success btn-block">Save</button>
-               
-                <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
-            </form>
+                    <button type="submit" class="btn btn-success btn-block">Save</button>
+                   
+                    <button type="button" class="btn btn-danger btn-block" data-action="delete-region">Delete</button>
+                </form>
+           </div>
 
             
         </div>

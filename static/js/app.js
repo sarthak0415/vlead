@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function make_and_post_swt(){
+    console.log('in make and post swt');
     swt_data = localStorage.regions
     swt_data_json = JSON.parse(swt_data)
     
@@ -59,8 +60,9 @@ function make_and_post_swt(){
 
 function userLoggedIn(username) {
     current_user = username
-    var text = 'Signed in as <b><u>' + username+ '</u></b>';
+    var text = 'Signed in as <b><u>' + current_user+ '</u></b>';
     $('#signinview').html(text);
+    $('#sign-in').hide();
 }
 
 function userLoggedOut(){
@@ -122,7 +124,7 @@ function waversurfer_init_function(){
 
     //Load file for wavesurfer
      //wavesurfer.load('http://www.archive.org/download/mshortworks_001_1202_librivox/msw001_03_rashomon_akutagawa_mt_64kb.mp3');
-    wavesurfer.load('static/demo.wav');
+    //wavesurfer.load('static/demo.wav');
 
     //waversurfer regions initiallize
     /* Regions */
@@ -579,8 +581,8 @@ GLOBAL_ACTIONS['delete-region'] = function () {
 };
 
 GLOBAL_ACTIONS['publish'] = function () {
-    //window.open('data:application/json;charset=utf-8,' +
-      //  encodeURIComponent(localStorage.regions));
+    window.open('data:application/json;charset=utf-8,' +
+        encodeURIComponent(localStorage.regions));
 
     make_and_post_swt();
 };
