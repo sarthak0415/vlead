@@ -277,24 +277,24 @@ function anntologies_data_loading(){
     csv_dict=[];
     var pattern = /[']+/g;
     $.ajax({
-        url : "static/data/csv/nodes.csv",
+        url : "static/data/csv/raag.csv",
         data : {},
         type : "GET",
         success : function(data){
             ////console.log(data);
             nodes_csv = data.replace(pattern, "");
             nodes_csv_dict = generateForm(nodes_csv);
-            csv_dict['nodes'] = nodes_csv_dict;
+            csv_dict['raag'] = nodes_csv_dict;
 
             $.ajax({
-                url : "static/data/csv/edges.csv",
+                url : "static/data/csv/taal.csv",
                 data : {},
                 type : "GET",
                 success : function(data){
                     ////console.log(data);
                     edges_csv = data.replace(pattern, "");;
                     edges_csv_dict = generateForm(edges_csv);
-                    csv_dict['edges'] = edges_csv_dict;
+                    csv_dict['taal'] = edges_csv_dict;
 
                     localStorage.setItem("csv", JSON.stringify(csv_dict))
                     addGraph(csv_dict);
@@ -303,9 +303,6 @@ function anntologies_data_loading(){
             });
         }
     });
-
-                
-
 }
 
 function change_type(){
