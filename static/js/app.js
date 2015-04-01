@@ -56,6 +56,10 @@ function make_and_post_swt(){
         success : function(data){
             localStorage.clear();
             ////console.log(data);
+            alert('Swt successfully posted, Congratualtions!');
+        },
+        error : function(){
+            alert('Sorry we are not able to post your Swt on the SwtStore, please try agian later')
         }
     });
 }
@@ -68,9 +72,17 @@ function userLoggedIn(username) {
 }
 
 function userLoggedOut(){
-    current_user = 'guest'
-    $('#signinview').html('Logged out');
-     $('#sign-in').show();
+    $.ajax({
+        url : "signOut",
+        data : {"user" : current_user},
+        type : "GET",
+        success : function(data){
+            current_user = 'guest'
+            $('#signinview').html('Logged out');
+            $('#sign-in').show();
+        }
+    });
+
 }
 
 function handle_signout(){
@@ -222,6 +234,9 @@ function load_music_file(url){
             //localStorage.clear();
             wavesurfer.load(data);
             //console.log(data);
+        },
+        error: function(errorThrown){
+           alert('sorry couldnt download the file try again');
         }
     });
 
@@ -590,10 +605,12 @@ GLOBAL_ACTIONS['delete-region'] = function () {
 };
 
 GLOBAL_ACTIONS['publish'] = function () {
-    window.open('data:application/json;charset=utf-8,' +
-        encodeURIComponent(localStorage.regions));
-
-    make_and_post_swt();
+    //window.open('data:application/json;charset=utf-8,' +
+      //  encodeURIComponent(localStorage.regions));
+    if(current_user != "guest")
+    {
+        make_and_post_swt();
+    }
 };
 
 (function(window) {

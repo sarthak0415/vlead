@@ -13,6 +13,10 @@ app.config['SECRET_KEY'] = config.secret_key
 @app.route("/")
 def index():
 
+    print 'In index printing session \n'
+    print session
+    print '\ndone\n'
+
     if 'auth_tok' in session:
         auth_tok = session['auth_tok']
 
@@ -38,21 +42,26 @@ def index():
 
 @app.route("/downloadMusic")
 def downloadMusic():
-    url = request.args.get("url")
-    #url = "http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/Samples/AFsp/M1F1-mulaw-AFsp.wav"
-    
-    print "in downloadMusic with content\t"
-    print url
-    music_file_parse_url = url.split("/")
-    music_file_name = music_file_parse_url[-1]
-    music_file_path = 'static/music_files/'+music_file_name
-    response = requests.get(url)
-    data = response.content
-    open(music_file_path, 'wb').write(data)
-    #print data
-    
-    return make_response(music_file_path, 200)
-    #return render_template('index.html')
+    try :
+        url = request.args.get("url")
+        #url = "http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/Samples/AFsp/M1F1-mulaw-AFsp.wav"
+        
+        print "in downloadMusic with content\t"
+        print url
+        music_file_parse_url = url.split("/")
+        music_file_name = music_file_parse_url[-1]
+        music_file_path = 'static/music_files/'+music_file_name
+        response = requests.get(url)
+        data = response.content
+        open(music_file_path, 'wb').write(data)
+        #print data
+        
+    except :
+        print 'sorry couldn download the file'
+        #return redirect(url_for('index'))
+    else:
+        return make_response(music_file_path, 200)
+        #return render_template('index.html')
     
 @app.route("/authenticate")
 def authenticateWithOAuth():
@@ -86,6 +95,22 @@ def authenticateWithOAuth():
     # set sessions etc
     session['auth_tok'] = auth_tok
     session['auth_tok']['issued'] = datetime.utcnow()
+    
+    return redirect(url_for('index'))
+
+@app.route("/signOut")
+def signOut():
+    user = request.args.get("user")
+
+    print "in sign out the user\t"
+    print user
+
+    print session
+    if 'auth_tok' in session:
+        del(session['auth_tok'])
+    print '\nsession deleted'
+    print session
+    print '\nnew session above'
     
     return redirect(url_for('index'))
 
