@@ -14,6 +14,7 @@ app.config['SECRET_KEY'] = config.secret_key
 def index():
 
     print 'In index printing session \n'
+    
     print session
     print '\ndone\n'
 
