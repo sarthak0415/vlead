@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function make_and_post_swt(){
     console.log('in make and post swt');
-    swt_data = localStorage.regions
+    swt_data = localStorage.swt
     swt_data_json = JSON.parse(swt_data)
     
     post_swt = []
@@ -46,15 +46,16 @@ function make_and_post_swt(){
 
         post_swt[i] = swt;
     }
-
-    ////console.log(post_swt)
+    
+    console.log(post_swt)
+    
     $.ajax({
         url : swtstoreURL()+ endpoints.post + '?access_token=' + access_token,
         data : JSON.stringify(post_swt),
         contentType: 'application/json',
         type : "POST",
         success : function(data){
-            localStorage.clear();
+            localStorage.swt="";
             ////console.log(data);
             alert('Swt successfully posted, Congratualtions!');
         },
@@ -446,6 +447,7 @@ function addLabel(options) {
  * Save annotations to localStorage.
  */
 function saveRegions() {
+    //console.log('yay you called saveregions! congrats ');
     localStorage.regions = JSON.stringify(
         Object.keys(wavesurfer.regions.list).map(function (id) {
             var region = wavesurfer.regions.list[id];
@@ -561,6 +563,7 @@ function editAnnotation (region) {
     form.elements.songtype.value = region.data.songtype || '' ;
     form.elements.songlabel.value = region.data.songlabel || '';
     form.onsubmit = function (e) {
+        
         e.preventDefault();
         region.update({
             start: form.elements.start.value,
@@ -574,12 +577,34 @@ function editAnnotation (region) {
             }
         });
         form.style.opacity = 0;
+        console.log('yay form got submitted');
+        //console.log(region);
+        
+        swt = {
+            start: region.start,
+            end: region.end,
+            data: region.data
+        };
+
+        //unpublished_swt.push(swt);
+        console.log(JSON.stringify(swt));
+        if(localStorage.swt)
+            var prev_swt = JSON.parse(localStorage.swt);
+        else
+            var prev_swt = [];
+        
+        prev_swt.push(swt)
+        
+        localStorage.swt = JSON.stringify(prev_swt);    
+        
+
     };
     form.onreset = function () {
         form.style.opacity = 0;
         form.dataset.region = null;
     };
     form.dataset.region = region.id;
+
 }
 
 /**
