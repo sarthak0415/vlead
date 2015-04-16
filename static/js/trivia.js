@@ -21,7 +21,7 @@ var GLOBAL_ACTIONS = {
 document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('keydown', function (e) {
         var map = {
-            32: 'play',       // space
+            //32: 'play',       // space
             37: 'back',       // left
             39: 'forth'       // right
         };

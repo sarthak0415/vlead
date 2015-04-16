@@ -375,9 +375,17 @@ function addGraph(options) {
     var select = document.querySelector('#'+selectId);    
 
     while(select.childElementCount>0){
-            select.removeChild(select.childNodes[0])
-        }
+        select.removeChild(select.childNodes[0])
+    }
 
+    //changes made for default value while selecting antology 
+    var default_value = "select"
+    var node = document.createElement("option");
+    node.id = default_value;
+    node.setAttribute('value', default_value);
+    node.textContent = default_value;
+    select.appendChild(node);
+    
     for (var val in options) {
         
         ////console.log(select);

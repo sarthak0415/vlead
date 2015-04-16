@@ -1,4 +1,4 @@
-nodes.csv :
+nodes.csv (raag.csv , taal.csv ):
 	ID,Type,Label
 edges.csv:
 	Source,Target,Label,ID,Type,Weight
