@@ -33,7 +33,7 @@ function make_and_post_swt(){
     for(i=0 ;i<swt_data_json.length;i++){
         
         var user = current_user;
-        var context = "music_anno"     // our context is fixed
+        var context = "music-anno"     // our context is fixed
         var url = $('#file-input').val()
         var resource = swt_data_json[i]
         
