@@ -1,5 +1,5 @@
 from flask import Flask, session, request, make_response, url_for, redirect,\
-    render_template, jsonify, abort
+    render_template, abort
 import requests
 import json
 from datetime import datetime, timedelta
@@ -10,11 +10,12 @@ import config
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config.secret_key
 
+
 @app.route("/")
 def index():
 
     print 'In index printing session \n'
-    
+
     print session
     print '\ndone\n'
 
@@ -22,7 +23,8 @@ def index():
         auth_tok = session['auth_tok']
 
         # check if it has expired
-        oauth_token_expires_in_endpoint = config.swtstoreURL + '/oauth/token-expires-in'
+        oauth_token_expires_in_endpoint = config.swtstoreURL +\
+            '/oauth/token-expires-in'
         resp = requests.get(oauth_token_expires_in_endpoint)
         expires_in = json.loads(resp.text)['expires_in']
 
@@ -41,36 +43,43 @@ def index():
                            refresh_token=auth_tok['refresh_token'],
                            config=config)
 
+
 @app.route("/downloadMusic")
 def downloadMusic():
-    try :
-        url = request.args.get("url")
-        #url = "http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/Samples/AFsp/M1F1-mulaw-AFsp.wav"
-        
-        print "in downloadMusic with content\t"
-        print url
-        music_file_parse_url = url.split("/")
-        music_file_name = music_file_parse_url[-1]
-        music_file_path = 'static/music_files/'+music_file_name
+
+    url = request.args.get("url")
+    print "in downloadMusic with content"
+    print url
+    url = url.strip()
+    music_file_parse_url = url.split("/")
+    music_file_name = music_file_parse_url[-1]
+    print music_file_name
+    music_file_path = 'static/music_files/' + music_file_name
+    print music_file_path
+    try:
         response = requests.get(url)
         data = response.content
-        open(music_file_path, 'wb').write(data)
-        #print data
-        
-    except :
+    except Exception, e:
         print 'sorry couldn download the file'
-        #return redirect(url_for('index'))
-    else:
-        return make_response(music_file_path, 200)
-        #return render_template('index.html')
-    
+        print e
+        abort(500)
+
+    try:
+        open(music_file_path, 'wb').write(data)
+    except:
+        print 'error writing file'
+        abort(500)
+
+    return make_response(music_file_path, 200)
+
+
 @app.route("/authenticate")
 def authenticateWithOAuth():
-    
+
     auth_tok = None
     code = request.args.get('code')
-    
-    print code 
+
+    print code
 
     # prepare the payload
     payload = {
@@ -96,8 +105,9 @@ def authenticateWithOAuth():
     # set sessions etc
     session['auth_tok'] = auth_tok
     session['auth_tok']['issued'] = datetime.utcnow()
-    
+
     return redirect(url_for('index'))
+
 
 @app.route("/signOut")
 def signOut():
@@ -112,10 +122,10 @@ def signOut():
     print '\nsession deleted'
     print session
     print '\nnew session above'
-    
+
     return redirect(url_for('index'))
 
 if __name__ == "__main__":
-    
+
     app.debug = True
-    app.run()
+    app.run(debug=True)
