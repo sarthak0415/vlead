@@ -288,8 +288,8 @@ function anntologies_data_loading(){
 
     */
 
-    nodes_csv_dict=[];
-    edges_csv_dict=[];
+    raag_csv_dict=[];
+    taal_csv_dict=[];
     csv_dict=[];
     var pattern = /[']+/g;
     $.ajax({
@@ -298,9 +298,9 @@ function anntologies_data_loading(){
         type : "GET",
         success : function(data){
             ////console.log(data);
-            nodes_csv = data.replace(pattern, "");
-            nodes_csv_dict = generateForm(nodes_csv);
-            csv_dict['raag'] = nodes_csv_dict;
+            raag_csv = data.replace(pattern, "");
+            raag_csv_dict = generateForm(raag_csv);
+            csv_dict['raag'] = raag_csv_dict;
 
             $.ajax({
                 url : "static/data/csv/taal.csv",
@@ -308,13 +308,13 @@ function anntologies_data_loading(){
                 type : "GET",
                 success : function(data){
                     ////console.log(data);
-                    edges_csv = data.replace(pattern, "");;
-                    edges_csv_dict = generateForm(edges_csv);
-                    csv_dict['taal'] = edges_csv_dict;
+                    taal_csv = data.replace(pattern, "");;
+                    taal_csv_dict = generateForm(taal_csv);
+                    csv_dict['taal'] = taal_csv_dict;
 
                     localStorage.setItem("csv", JSON.stringify(csv_dict))
                     addGraph(csv_dict);
-                    //console.log(csv_dict);
+                    console.log(csv_dict);
                 }
             });
         }
@@ -355,7 +355,8 @@ function generateForm(csv_data){
         else{
            lines[temp_key] = tarr;
            temp_key = data[1];
-           tarr = []; 
+           tarr = [];
+           tarr.push(data[2]); 
         }
 
     }
@@ -378,6 +379,7 @@ function addGraph(options) {
         select.removeChild(select.childNodes[0])
     }
 
+    /*
     //changes made for default value while selecting antology 
     var default_value = "select"
     var node = document.createElement("option");
@@ -385,6 +387,7 @@ function addGraph(options) {
     node.setAttribute('value', default_value);
     node.textContent = default_value;
     select.appendChild(node);
+    */
     
     for (var val in options) {
         
@@ -410,6 +413,14 @@ function addType(options) {
     while(select.childElementCount>0){
             select.removeChild(select.childNodes[0])
         }
+
+    //changes made for default value while selecting antology 
+    var default_value = "select"
+    var node = document.createElement("option");
+    node.id = default_value;
+    node.setAttribute('value', default_value);
+    node.textContent = default_value;
+    select.appendChild(node);
 
     for (var val in options) {
         
